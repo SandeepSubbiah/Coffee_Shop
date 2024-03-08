@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("CoffeeShopDbContextConnection");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -12,11 +13,16 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>(ShoppingCartRepository.GetCart);
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
 
+//User Role
+//builder.Services.AddDbContext<CoffeeShopDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<CoffeeShopDbContext>();
+//
 
-builder.Services.AddDbContext<CoffeeShopDbContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("CoffeeShopDbContextConnection")));
+builder.Services.AddDbContext<CoffeeShopDbContext>(option=>option.UseSqlServer(connectionString), ServiceLifetime.Scoped);
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<CoffeeShopDbContext>();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<CoffeeShopDbContext>();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();

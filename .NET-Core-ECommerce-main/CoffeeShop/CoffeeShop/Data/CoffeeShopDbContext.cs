@@ -1,10 +1,11 @@
 ﻿using CoffeeShop.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeShop.Data
 {
-    public class CoffeeShopDbContext : IdentityDbContext
+    public class CoffeeShopDbContext : IdentityDbContext<IdentityUser>
     {
         public CoffeeShopDbContext(DbContextOptions<CoffeeShopDbContext>options) : base(options)
         {   
@@ -13,6 +14,7 @@ namespace CoffeeShop.Data
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        //public DbSet<SoldItem> SoldItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +31,8 @@ namespace CoffeeShop.Data
                     new Product { Id = 8, Name = "Iced Coffee", Detail = "Iced coffee is a refreshing and delicious way to enjoy your coffee, perfect for hot summer days or for anyone looking for a cool pick-me-up. Our iced coffee is made with high-quality, freshly brewed coffee, which is then chilled and served over ice. We use only the finest coffee beans, expertly roasted to bring out their rich, full-bodied flavor, ensuring that every sip is a treat. Our iced coffee is available in a variety of flavors, including classic black, vanilla, caramel, and mocha, making it the perfect choice for coffee lovers of all tastes. So why wait? Treat yourself to a cold, refreshing glass of iced coffee today!", Price = 13, IsTrendingProduct = false, ImageUrl = "https://res.cloudinary.com/durcypdqc/image/upload/v1675704079/Coffee%20Shop%20Asp%20.NET%20Core%20~/Iced_Coffee_o2nenz.png" }
 
                 );
+
         }
+
     }
 }
